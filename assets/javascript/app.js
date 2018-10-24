@@ -27,10 +27,13 @@ $.fn.gifThis = function () {
         t.input = $("#user-topic").val().trim();
             if (t.topicsArr.indexOf(t.input) === -1) {
                 t.topicsArr.push(t.input)
+                t.clearButtons();
+                t.renderButtons();
+                $("#user-topic").val("");
             }
         }
     t.ajaxCall = function (name) {
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + name + "&api_key=dc6zaTOxFJmzC&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + name + "&api_key=dc6zaTOxFJmzC&limit=15";
 
         $.ajax({
             url: queryURL,
@@ -39,16 +42,19 @@ $.fn.gifThis = function () {
             console.log(response);
             var results = response.data
             for (var j = 0; j < results.length; j++) {
+                t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)]
                 var gifDiv = $("<div>");
                 gifDiv.attr({
                     "class": "my-2 mx-2 float-left"
                 });
                 var p = $("<p>");
                 p.text(results[j].rating.toUpperCase()).css({
-                    "background-color": "#d1d1d1",
-                    "color": "green",
+                    // "background-color": "#d1d1d1",
+                    "color": "white",
                     "font-weight": "strong",
                     "text-align": "center"
+                }).attr({
+                    "class": `${t.colorPick}-gradient`
                 })
                 var img = $("<img>");
                 img.attr({
@@ -71,9 +77,7 @@ $(document).ready(function () {
     GIF = $(window).gifThis();
     GIF.renderButtons();
     $("#button-topic").click(function () {
-        GIF.clearButtons();
         GIF.takeInput();
-        GIF.renderButtons();
     });
     $("body").on("click", "#buttons-goHere .btn", function () {
         t = $(this);
