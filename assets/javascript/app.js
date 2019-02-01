@@ -73,8 +73,7 @@ $.fn.gifThis = function () {
     return t;
 };
 $(document).ready(function () {
-    var GIF;
-    GIF = $(window).gifThis();
+    var GIF = $(window).gifThis();
     GIF.renderButtons();
     $("#button-topic").click(function () {
         GIF.takeInput();
